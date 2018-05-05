@@ -41,16 +41,21 @@ function map(array, fn) {
  */
 function reduce(array, fn, initial) {
     let [arr, func, init] = [array, fn, initial];
-    let result = init;
-
-    for (let i = 0; i < arr.length; i++) {
+    
+    let result;
         
-        if (result == undefined) {
-            result = arr[0];
-        } else {
+    if (init == undefined) {
+        result = arr[0];
+        for (let i = 1; i < arr.length; i++) {
             result = func(result, arr[i], i, arr);
         }
+            
+    } else {
+        result = init;
         
+        for (let i = 0; i < arr.length; i++) {
+            result = func(result, arr[i], i, arr);
+        }
     }
   
     return result;
@@ -68,7 +73,11 @@ function upperProps(obj) {
     let upperArray = [];
   
     for (let prop in obj) {
-        upperArray.push(obj[prop].toUpperCase());
+
+        if (obj.hasOwnProperty(prop)) {
+            upperArray.push(prop.toUpperCase());
+        }
+        
     }
   
     return upperArray;
@@ -81,13 +90,7 @@ function upperProps(obj) {
  Посмотрите как работает slice и повторите это поведение для массива, который будет передан в параметре array
  */
 function slice(array, from, to) {
-    let sliceArr = [];
-
-    for (let i = from; i < array.length && i <= to; i++) {
-        sliceArr.push(array[i]);
-    }
     
-    return sliceArr;
 }
 
 /*
