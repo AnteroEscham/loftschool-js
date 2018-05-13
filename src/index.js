@@ -249,7 +249,6 @@ function observeChildNodes(where, fn) {
             if (mutation.removedNodes.length != 0) {
                 result.type = 'remove';
                 result.nodes = [].slice.call(mutation.removedNodes);
-                console.log(result.nodes);
                 fn(result);
                 
             }
