@@ -1,4 +1,4 @@
-import { unzipSync } from "zlib";
+import { unzipSync } from 'zlib';
 
 /* ДЗ 4 - работа с DOM */
 
@@ -129,7 +129,6 @@ function deleteTextNodes(where) {
 function deleteTextNodesRecursive(where) {
    
     for (let node of where.childNodes) {
-        // console.log(node.nodeType);
 
         if (node.nodeType === 3) {
             node.textContent = '';
@@ -162,7 +161,6 @@ function deleteTextNodesRecursive(where) {
    }
  */
 function collectDOMStat(root) {
-    // console.log(root.childNodes);
 
     const statObj = {
         tags: {},
@@ -242,7 +240,36 @@ function collectDOMStat(root) {
    }
  */
 function observeChildNodes(where, fn) {
-    
+    let observer = new MutationObserver(function (mutations) {
+
+        let result = {};
+
+        for (let mutation of mutations) {
+          
+            if (mutation.removedNodes.length != 0) {
+                result.type = 'remove';
+                result.nodes = [].slice.call(mutation.removedNodes);
+                console.log(result.nodes);
+                fn(result);
+                
+            }
+
+            if (mutation.addedNodes.length != 0) {
+                result.type = 'insert';
+                result.nodes = [].slice.call(mutation.addedNodes);
+
+                fn(result);
+                
+            }
+        }
+
+        console.log(result);
+
+    });
+
+    const config = { subtree: true, childList: true };
+
+    observer.observe(where, config);
 }
 
 export {
