@@ -59,24 +59,39 @@ function createDiv() {
  */
 function addListeners(target) {
     
-    target.setAttribute('draggable', true);
     target.style.cursor = 'move';
+    
+    let isMove = false;
 
-    target.addEventListener('dragstart', e => {
+    target.addEventListener('mousedown', e => {
         const elem = e.currentTarget;
 
+        isMove = false;
         elem.style.zIndex = '1000';
+
+        document.addEventListener('mousemove', e => {
+            const elem = target;
+          
+            if (!isMove) {
+                elem.style.left = e.pageX - elem.offsetWidth / 2 + 'px';
+                elem.style.top = e.pageY - elem.offsetHeight / 2 + 'px';
+                elem.style.zIndex = '1000';
+            }
+            
+        });
+
+        target.addEventListener('mouseup', e => {
+            const elem = e.currentTarget;
+
+            isMove = true;
+            elem.style.zIndex = '1000';
+        });
+
+        target.addEventListener('dragstart', e => {
+            e.preventDefault();
+        });
     });
 
-    target.addEventListener('dragend', e => {
-        const elem = e.currentTarget;
-
-        elem.style.left = e.pageX - elem.offsetWidth / 2 + 'px';
-        elem.style.top = e.pageY - elem.offsetHeight / 2 + 'px';
-
-        elem.style.zIndex = '1000';
-    });
- 
 }
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
