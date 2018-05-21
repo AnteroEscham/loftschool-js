@@ -50,7 +50,7 @@ filterNameInput.addEventListener('keyup', function() {
 
     listTable.innerHTML = '';
     for (const prop in cookie) {
-        if (cookie.hasOwnProperty(prop)) {
+        if (cookie.hasOwnProperty(prop) && cookie[prop] != undefined) {
 
             if (isMatching(prop, search) || isMatching(cookie[prop], search)) {
                 createRow(prop, cookie[prop]);
